@@ -2,8 +2,7 @@ FROM --platform=linux/amd64 alpine:3.16
 
 ARG RELEASE="20221005"
 ARG VERSION="10.16.1"
-ARG USER=az
-ARG HOMEDIR=/home/${USER}
+ARG HOMEDIR=/root/
 
 WORKDIR /tmp
 
@@ -15,11 +14,7 @@ RUN tar xf azcopy_linux_amd64_${VERSION}.tar.gz && \
     mv azcopy_linux_amd64_${VERSION}/azcopy /usr/local/bin/azcopy && \
     rm -rf azcopy_linux_amd64_* /var/cache/apk/*
 
-RUN adduser --uid 666 --shell /bin/sh -D --home ${HOMEDIR} ${USER}
-
 WORKDIR ${HOMEDIR}
-USER ${USER}
-
 ENTRYPOINT [ "azcopy" ]
 
 CMD [ "--help" ]
